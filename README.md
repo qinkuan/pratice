@@ -1,0 +1,2 @@
+# pratice
+code of pratice
