@@ -6,9 +6,10 @@ import java.util.concurrent.CountDownLatch;
 
 public class ZookeeperUtil {
 
-
     private static volatile ZooKeeper zkCli = null;
+    /* zookeeper的地址和端口 */
     private static final String connectString = "127.0.0.1:2181";
+    /* 会话超时时间 */
     private static final int sessionTimeout = 30000;
 
     /**
@@ -23,12 +24,14 @@ public class ZookeeperUtil {
                     try {
                         zkCli = new ZooKeeper(connectString, sessionTimeout, event -> {
                             if (zkCli.getState().isConnected()) {
+                                // 监听连接zookeeper状态
                                 countDownLatch.countDown();
                             }
                         });
+                        // 因为连接需要时间，代码不能直接往下走
                         countDownLatch.await();
                     } catch (Exception e) {
-                        System.out.println("create zookeeper client fail");
+                        System.out.println("create zookeeper client fail！！！！！！！！！！！！！！！！！！！");
                     } finally {
                         countDownLatch.countDown();
                     }
